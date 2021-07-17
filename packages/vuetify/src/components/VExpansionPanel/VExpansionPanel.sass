@@ -1,31 +1,31 @@
 @import './_variables.scss'
 
 // Theme
-+theme(v-expansion-panels) using ($material)
-  .v-expansion-panel
-    background-color: map-get($material, 'cards')
-    color: map-deep-get($material, 'text', 'primary')
+// +theme(v-expansion-panels) using ($material)
+//   .v-expansion-panel
+//     background-color: map-get($material, 'cards')
+//     color: map-deep-get($material, 'text', 'primary')
 
-    &--disabled
-      color: map-deep-get($material, 'text', 'disabled')
+//     &--disabled
+//       color: map-deep-get($material, 'text', 'disabled')
 
-    &:not(:first-child)::after
-      border-color: map-get($material, 'dividers')
+//     &:not(:first-child)::after
+//       border-color: map-get($material, 'dividers')
 
-  .v-expansion-panel-header
-    .v-expansion-panel-header__icon
-      .v-icon
-        color: map-deep-get($material, 'icons', 'active')
+//   .v-expansion-panel-header
+//     .v-expansion-panel-header__icon
+//       .v-icon
+//         color: map-deep-get($material, 'icons', 'active')
 
-  &.v-expansion-panels--focusable
-    .v-expansion-panel-header
-      +states($material)
+//   &.v-expansion-panels--focusable
+//     .v-expansion-panel-header
+//       +states($material)
 
-  &.v-expansion-panels--hover
-    > .v-expansion-panel
-      > .v-expansion-panel-header
-        &:hover
-          +states($material)
+//   &.v-expansion-panels--hover
+//     > .v-expansion-panel
+//       > .v-expansion-panel-header
+//         &:hover
+//           +states($material)
 
 // Block
 .v-expansion-panels
@@ -41,59 +41,85 @@
   > *
     cursor: auto
 
-  > *:first-child
-    border-top-left-radius: inherit
-    border-top-right-radius: inherit
+  &:not(&--accordion)
+    > :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(.v-expansion-panel--before-active)
+      border-bottom-left-radius: 0 !important
+      border-bottom-right-radius: 0 !important
 
-  > *:last-child
-    border-bottom-left-radius: inherit
-    border-bottom-right-radius: inherit
+    > :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(.v-expansion-panel--after-active)
+      border-top-left-radius: 0 !important
+      border-top-right-radius: 0 !important
+
+    > :first-child:not(.v-expansion-panel--active):not(.v-expansion-panel--before-active)
+      border-bottom-left-radius: 0 !important
+      border-bottom-right-radius: 0 !important
+
+    > :last-child:not(.v-expansion-panel--active):not(.v-expansion-panel--after-active)
+      border-top-left-radius: 0 !important
+      border-top-right-radius: 0 !important
+
+  &--accordion
+    > :first-child
+      border-bottom-left-radius: 0 !important
+      border-bottom-right-radius: 0 !important
+
+    > :last-child
+      border-top-left-radius: 0 !important
+      border-top-right-radius: 0 !important
+
+    > :not(:first-child):not(:last-child)
+      border-radius: 0 !important
+
+
+  // > :not(:first-child):not(:last-child):not(.v-expansion-panel--active)
+  //   border-radius: 0 !important
 
   // round corners on non-accordion/tile panels
-  &:not(&--accordion):not(&--tile)
-    > .v-expansion-panel
-      &--active
-        border-radius: $expansion-panel-border-radius
+  // &:not(&--accordion):not(&--tile)
+  //   > .v-expansion-panel
+  //     &--active
+  //       border-radius: $expansion-panel-border-radius
 
-        + .v-expansion-panel
-          border-top-left-radius: $expansion-panel-border-radius
-          border-top-right-radius: $expansion-panel-border-radius
+  //       + .v-expansion-panel
+  //         border-top-left-radius: $expansion-panel-border-radius
+  //         border-top-right-radius: $expansion-panel-border-radius
 
-      &--next-active
-        border-bottom-left-radius: $expansion-panel-border-radius
-        border-bottom-right-radius: $expansion-panel-border-radius
+  //     &--next-active
+  //       border-bottom-left-radius: $expansion-panel-border-radius
+  //       border-bottom-right-radius: $expansion-panel-border-radius
 
-        .v-expansion-panel-header
-          border-bottom-left-radius: inherit
-          border-bottom-right-radius: inherit
+  //       .v-expansion-panel-header
+  //         border-bottom-left-radius: inherit
+  //         border-bottom-right-radius: inherit
 
 // Element
 .v-expansion-panel
   flex: 1 0 100%
   max-width: 100%
   position: relative
-  transition: .3s map-get($transition, 'swing')
+  transition: .3s $standard-easing
+  +elevation(2)
 
-  &::before
-    border-radius: inherit
-    bottom: 0
-    content: ''
-    left: 0
-    position: absolute
-    right: 0
-    top: 0
-    z-index: -1
-    +elevationTransition()
-    +elevation(2)
+  // &::before
+  //   border-radius: inherit
+  //   bottom: 0
+  //   content: ''
+  //   left: 0
+  //   position: absolute
+  //   right: 0
+  //   top: 0
+  //   z-index: -1
+    // +elevationTransition()
+    // +elevation(2)
 
-  &:not(:first-child)::after
-    border-top: thin solid
-    content: ''
-    left: 0
-    position: absolute
-    right: 0
-    top: 0
-    transition: .2s border-color map-get($transition, 'fast-out-slow-in'), .2s opacity map-get($transition, 'fast-out-slow-in')
+  // &:not(:first-child)::after
+  //   border-top: thin solid
+  //   content: ''
+  //   left: 0
+  //   position: absolute
+  //   right: 0
+  //   top: 0
+  //   transition: .2s border-color $standard-easing, .2s opacity $standard-easing
 
   &--disabled
     .v-expansion-panel-header
@@ -137,7 +163,8 @@
   outline: none
   padding: $expansion-panel-header-padding
   position: relative
-  transition: .3s min-height map-get($transition, 'swing')
+  transition: .3s all $standard-easing
+  transition-property: min-height, border-radius
   width: 100%
 
   +ltr()
@@ -160,20 +187,25 @@
     position: absolute
     right: 0
     top: 0
-    transition: .3s opacity map-get($transition, 'swing')
+    transition: 0.3s all $standard-easing
+    transition-property: opacity, border-radius
 
   > *:not(.v-expansion-panel-header__icon)
     flex: 1 1 auto
 
+  &:not(.v-expansion-panel-header--active)
+    border-bottom-left-radius: inherit
+    border-bottom-right-radius: inherit
+
 .v-expansion-panel-content
   display: flex
 
-  &__wrap
+  &__wrapper
     padding: $expansion-panel-content-padding
     flex: 1 1 auto
     max-width: 100%
 
-// Modifier
+// Modifiers
 .v-expansion-panels--accordion
   > .v-expansion-panel
     margin-top: 0
@@ -195,17 +227,17 @@
     &--active
       max-width: $expansion-panel-inset-active-max-width
 
-.v-expansion-panels--flat
-  > .v-expansion-panel
-    &::after
-      border-top: none
+// .v-expansion-panels--flat
+//   > .v-expansion-panel
+//     &::after
+//       border-top: none
 
-    &::before
-      +elevation(0)
+//     &::before
+//       +elevation(0)
 
-.v-expansion-panels--tile
-  border-radius: 0
+// .v-expansion-panels--tile
+//   border-radius: 0
 
-  > .v-expansion-panel
-    &::before
-      border-radius: 0
+//   > .v-expansion-panel
+//     &::before
+//       border-radius: 0
