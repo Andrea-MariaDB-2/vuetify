@@ -17,15 +17,22 @@
 //       .v-icon
 //         color: map-deep-get($material, 'icons', 'active')
 
-//   &.v-expansion-panels--focusable
-//     .v-expansion-panel-header
-//       +states($material)
 
 //   &.v-expansion-panels--hover
 //     > .v-expansion-panel
 //       > .v-expansion-panel-header
 //         &:hover
 //           +states($material)
+.v-expansion-panel
+  background-color: rgb(var(--v-theme-background))
+  color: rgb(var(--v-theme-on-background))
+
+  &:not(:first-child)::after
+    border-color: rgba(var(--v-border-color), var(--v-border-opacity))
+
+.v-expansion-panel-header
+  &:focus
+    background-color: rgba(var(--v-border-color), var(--v-border-opacity))
 
 // Block
 .v-expansion-panels
@@ -36,7 +43,6 @@
   list-style-type: none
   padding: 0
   width: 100%
-  z-index: 1
 
   > *
     cursor: auto
@@ -70,7 +76,6 @@
     > :not(:first-child):not(:last-child)
       border-radius: 0 !important
 
-
   // > :not(:first-child):not(:last-child):not(.v-expansion-panel--active)
   //   border-radius: 0 !important
 
@@ -98,28 +103,30 @@
   max-width: 100%
   position: relative
   transition: .3s $standard-easing
-  +elevation(2)
+  border-radius: $expansion-panel-border-radius
+  // @include elevation(2)
 
-  // &::before
-  //   border-radius: inherit
-  //   bottom: 0
-  //   content: ''
-  //   left: 0
-  //   position: absolute
-  //   right: 0
-  //   top: 0
-  //   z-index: -1
-    // +elevationTransition()
-    // +elevation(2)
+  &::before
+    border-radius: inherit
+    bottom: 0
+    content: ''
+    left: 0
+    position: absolute
+    right: 0
+    top: 0
+    z-index: -1
+    +elevationTransition()
+    +elevation(2)
 
-  // &:not(:first-child)::after
-  //   border-top: thin solid
-  //   content: ''
-  //   left: 0
-  //   position: absolute
-  //   right: 0
-  //   top: 0
-  //   transition: .2s border-color $standard-easing, .2s opacity $standard-easing
+  &:not(:first-child)::after
+    border-top-style: solid
+    border-top-width: thin
+    content: ''
+    left: 0
+    position: absolute
+    right: 0
+    top: 0
+    transition: .2s border-color $standard-easing, .2s opacity $standard-easing
 
   &--disabled
     .v-expansion-panel-header
@@ -135,10 +142,6 @@
 
     > .v-expansion-panel-header
          min-height: $expansion-panel-active-header-min-height
-
-    > .v-expansion-panel-header--active .v-expansion-panel-header__icon
-      &:not(.v-expansion-panel-header__icon--disable-rotate) .v-icon
-        transform: rotate(-180deg)
 
 .v-expansion-panel-header__icon
   display: inline-flex
@@ -164,17 +167,17 @@
   padding: $expansion-panel-header-padding
   position: relative
   transition: .3s all $standard-easing
-  transition-property: min-height, border-radius
+  transition-property: min-height, border-bottom-left-radius, border-bottom-right-radius
   width: 100%
+
+  &:active::before
+    opacity: 0.24
 
   +ltr()
     text-align: left
 
   +rtl()
     text-align: right
-
-  &:not(.v-expansion-panel-header--mousedown):focus::before
-    opacity: 0.12
 
   &:before
     background-color: currentColor
@@ -187,11 +190,13 @@
     position: absolute
     right: 0
     top: 0
-    transition: 0.3s all $standard-easing
-    transition-property: opacity, border-radius
+    transition: 0.3s opacity $standard-easing
 
   > *:not(.v-expansion-panel-header__icon)
     flex: 1 1 auto
+
+  &--active::before
+    opacity: 0.12
 
   &:not(.v-expansion-panel-header--active)
     border-bottom-left-radius: inherit
