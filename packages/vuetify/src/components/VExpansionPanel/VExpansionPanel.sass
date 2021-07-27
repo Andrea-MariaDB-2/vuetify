@@ -6,9 +6,6 @@
 //     background-color: map-get($material, 'cards')
 //     color: map-deep-get($material, 'text', 'primary')
 
-//     &--disabled
-//       color: map-deep-get($material, 'text', 'disabled')
-
 //     &:not(:first-child)::after
 //       border-color: map-get($material, 'dividers')
 
@@ -23,16 +20,23 @@
 //       > .v-expansion-panel-header
 //         &:hover
 //           +states($material)
-.v-expansion-panel
-  background-color: rgb(var(--v-theme-background))
-  color: rgb(var(--v-theme-on-background))
+.v-expansion-panel:not(:first-child)::after
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity))
 
-  &:not(:first-child)::after
-    border-color: rgba(var(--v-border-color), var(--v-border-opacity))
+// .v-expansion-panel-header, .v-expansion-panel-content
+//   background-color: rgb(var(--v-theme-surface))
+//   color: rgb(var(--v-theme-on-surface))
 
-.v-expansion-panel-header
-  &:focus
-    background-color: rgba(var(--v-border-color), var(--v-border-opacity))
+// .v-expansion-panel-header
+//   &:focus
+//     background-color: rgba(var(--v-border-color), var(--v-border-opacity))
+
+// .v-expansion-panel--disabled
+//   .v-expansion-panel-header
+//     color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity))
+
+.v-expansion-panel-header.v-btn
+  border-radius: inherit !important
 
 // Block
 .v-expansion-panels
@@ -104,19 +108,6 @@
   position: relative
   transition: .3s $standard-easing
   border-radius: $expansion-panel-border-radius
-  // @include elevation(2)
-
-  &::before
-    border-radius: inherit
-    bottom: 0
-    content: ''
-    left: 0
-    position: absolute
-    right: 0
-    top: 0
-    z-index: -1
-    +elevationTransition()
-    +elevation(2)
 
   &:not(:first-child)::after
     border-top-style: solid
@@ -143,6 +134,16 @@
     > .v-expansion-panel-header
          min-height: $expansion-panel-active-header-min-height
 
+.v-expansion-panel__shadow
+  position: absolute
+  left: 0
+  top: 0
+  right: 0
+  bottom: 0
+  border-radius: inherit
+  z-index: -1
+  @include elevation(2)
+
 .v-expansion-panel-header__icon
   display: inline-flex
   margin-bottom: -4px
@@ -156,10 +157,10 @@
     margin-right: auto
 
 .v-expansion-panel-header
-  align-items: center
+  // align-items: center
   border-top-left-radius: inherit
   border-top-right-radius: inherit
-  display: flex
+  // display: flex
   font-size: $expansion-panel-header-font-size
   line-height: 1
   min-height: $expansion-panel-header-min-height
@@ -167,33 +168,35 @@
   padding: $expansion-panel-header-padding
   position: relative
   transition: .3s all $standard-easing
-  transition-property: min-height, border-bottom-left-radius, border-bottom-right-radius
+  // transition-property: min-height, border-bottom-left-radius, border-bottom-right-radius
+  transition-property: min-height
   width: 100%
+  justify-content: space-between
 
-  &:active::before
-    opacity: 0.24
+  // &:active::before
+  //   opacity: 0.24
 
-  +ltr()
-    text-align: left
+  // +ltr()
+  //   text-align: left
 
-  +rtl()
-    text-align: right
+  // +rtl()
+  //   text-align: right
 
-  &:before
-    background-color: currentColor
-    border-radius: inherit
-    bottom: 0
-    content: ''
-    left: 0
-    opacity: 0
-    pointer-events: none
-    position: absolute
-    right: 0
-    top: 0
-    transition: 0.3s opacity $standard-easing
+  // &:before
+  //   background-color: currentColor
+  //   border-radius: inherit
+  //   bottom: 0
+  //   content: ''
+  //   left: 0
+  //   opacity: 0
+  //   pointer-events: none
+  //   position: absolute
+  //   right: 0
+  //   top: 0
+  //   transition: 0.3s opacity $standard-easing
 
-  > *:not(.v-expansion-panel-header__icon)
-    flex: 1 1 auto
+  // > *:not(.v-expansion-panel-header__icon)
+  //   flex: 1 1 auto
 
   &--active::before
     opacity: 0.12
@@ -201,6 +204,10 @@
   &:not(.v-expansion-panel-header--active)
     border-bottom-left-radius: inherit
     border-bottom-right-radius: inherit
+
+  &.v-expansion-panel-header--active
+    border-bottom-left-radius: 0 !important
+    border-bottom-right-radius: 0 !important
 
 .v-expansion-panel-content
   display: flex

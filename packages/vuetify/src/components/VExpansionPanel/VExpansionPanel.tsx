@@ -48,10 +48,15 @@ export default defineComponent({
             'v-expansion-panel--disabled': props.disabled,
           },
           ...roundedClasses.value,
-          ...elevationClasses.value,
         ]}
         aria-expanded={groupItem.isSelected.value}
       >
+        <div
+          class={[
+            'v-expansion-panel__shadow',
+            ...elevationClasses.value,
+          ]}
+        />
         { slots.default?.() }
       </div>
     )
