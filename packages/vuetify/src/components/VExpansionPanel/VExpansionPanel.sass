@@ -1,35 +1,12 @@
 @import ./index
 
 // Theme
-// +theme(v-expansion-panels) using ($material)
-//   .v-expansion-panel
-//     background-color: map-get($material, 'cards')
-//     color: map-deep-get($material, 'text', 'primary')
-
-//     &:not(:first-child)::after
-//       border-color: map-get($material, 'dividers')
-
-//   .v-expansion-panel-header
-//     .v-expansion-panel-header__icon
-//       .v-icon
-//         color: map-deep-get($material, 'icons', 'active')
-
-
-//   &.v-expansion-panels--hover
-//     > .v-expansion-panel
-//       > .v-expansion-panel-header
-//         &:hover
-//           +states($material)
 .v-expansion-panel:not(:first-child)::after
   border-color: rgba(var(--v-border-color), var(--v-border-opacity))
 
 .v-expansion-panel
   background-color: rgb(var(--v-theme-surface))
   color: rgb(var(--v-theme-on-surface))
-
-// .v-expansion-panel-header
-//   &:focus
-//     background-color: rgba(var(--v-border-color), var(--v-border-opacity))
 
 .v-expansion-panel--disabled
   .v-expansion-panel-header
@@ -38,10 +15,8 @@
     .v-expansion-panel-header__overlay
       // This is multiplied by the text opacity,
       // so we need to divide it to get the desired value
+      // TODO: Should disabled be part of states mixin?
       opacity: $expansion-panel-disabled-overlay / $expansion-panel-disabled-opacity
-
-.v-expansion-panel-header.v-btn
-  border-radius: inherit !important
 
 // Block
 .v-expansion-panels
@@ -52,9 +27,6 @@
   list-style-type: none
   padding: 0
   width: 100%
-
-  > *
-    cursor: auto
 
   &:not(&--accordion)
     > :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(.v-expansion-panel--before-active)
@@ -84,27 +56,6 @@
 
     > :not(:first-child):not(:last-child)
       border-radius: 0 !important
-
-  // > :not(:first-child):not(:last-child):not(.v-expansion-panel--active)
-  //   border-radius: 0 !important
-
-  // round corners on non-accordion/tile panels
-  // &:not(&--accordion):not(&--tile)
-  //   > .v-expansion-panel
-  //     &--active
-  //       border-radius: $expansion-panel-border-radius
-
-  //       + .v-expansion-panel
-  //         border-top-left-radius: $expansion-panel-border-radius
-  //         border-top-right-radius: $expansion-panel-border-radius
-
-  //     &--next-active
-  //       border-bottom-left-radius: $expansion-panel-border-radius
-  //       border-bottom-right-radius: $expansion-panel-border-radius
-
-  //       .v-expansion-panel-header
-  //         border-bottom-left-radius: inherit
-  //         border-bottom-right-radius: inherit
 
 // Element
 .v-expansion-panel
@@ -178,33 +129,8 @@
   transition-property: min-height
   width: 100%
   justify-content: space-between
-
   @include states('.v-expansion-panel-header__overlay', true)
 
-  // &:active::before
-  //   opacity: 0.24
-
-  // +ltr()
-  //   text-align: left
-
-  // +rtl()
-  //   text-align: right
-
-  // &:before
-  //   background-color: currentColor
-  //   border-radius: inherit
-  //   bottom: 0
-  //   content: ''
-  //   left: 0
-  //   opacity: 0
-  //   pointer-events: none
-  //   position: absolute
-  //   right: 0
-  //   top: 0
-  //   transition: 0.3s opacity $standard-easing
-
-  // > *:not(.v-expansion-panel-header__icon)
-  //   flex: 1 1 auto
 
   &--active::before
     opacity: 0.12
@@ -226,7 +152,6 @@
   bottom: 0
   background-color: currentColor
   border-radius: inherit
-  // transition: opacity 0.2s ease-in-out
   opacity: 0
 
 .v-expansion-panel-content
@@ -258,18 +183,3 @@
 
     &--active
       max-width: $expansion-panel-inset-active-max-width
-
-// .v-expansion-panels--flat
-//   > .v-expansion-panel
-//     &::after
-//       border-top: none
-
-//     &::before
-//       +elevation(0)
-
-// .v-expansion-panels--tile
-//   border-radius: 0
-
-//   > .v-expansion-panel
-//     &::before
-//       border-radius: 0

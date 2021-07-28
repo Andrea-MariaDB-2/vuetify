@@ -5,6 +5,7 @@ import { VExpansionPanelSymbol } from './VExpansionPanels'
 import { makeElevationProps, useElevation } from '@/composables/elevation'
 import { makeGroupItemProps, useGroupItem } from '@/composables/group'
 import { makeRoundedProps, useRounded } from '@/composables/rounded'
+import { makeTagProps } from '@/composables/tag'
 
 // Utilities
 import { computed, provide } from 'vue'
@@ -18,6 +19,7 @@ export default defineComponent({
     ...makeGroupItemProps(),
     ...makeRoundedProps(),
     ...makeElevationProps(),
+    ...makeTagProps(),
   },
 
   setup (props, { slots }) {
@@ -38,7 +40,7 @@ export default defineComponent({
     })
 
     return () => (
-      <div
+      <props.tag
         class={[
           'v-expansion-panel',
           {
@@ -58,7 +60,7 @@ export default defineComponent({
           ]}
         />
         { slots.default?.() }
-      </div>
+      </props.tag>
     )
   },
 })
