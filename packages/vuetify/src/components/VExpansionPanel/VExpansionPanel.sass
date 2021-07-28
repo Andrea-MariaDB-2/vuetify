@@ -1,4 +1,4 @@
-@import './_variables.scss'
+@import ./index
 
 // Theme
 // +theme(v-expansion-panels) using ($material)
@@ -23,17 +23,22 @@
 .v-expansion-panel:not(:first-child)::after
   border-color: rgba(var(--v-border-color), var(--v-border-opacity))
 
-// .v-expansion-panel-header, .v-expansion-panel-content
-//   background-color: rgb(var(--v-theme-surface))
-//   color: rgb(var(--v-theme-on-surface))
+.v-expansion-panel
+  background-color: rgb(var(--v-theme-surface))
+  color: rgb(var(--v-theme-on-surface))
 
 // .v-expansion-panel-header
 //   &:focus
 //     background-color: rgba(var(--v-border-color), var(--v-border-opacity))
 
-// .v-expansion-panel--disabled
-//   .v-expansion-panel-header
-//     color: rgba(var(--v-theme-on-surface), var(--v-disabled-opacity))
+.v-expansion-panel--disabled
+  .v-expansion-panel-header
+    color: rgba(var(--v-theme-on-surface), $expansion-panel-disabled-opacity)
+
+    .v-expansion-panel-header__overlay
+      // This is multiplied by the text opacity,
+      // so we need to divide it to get the desired value
+      opacity: $expansion-panel-disabled-overlay / $expansion-panel-disabled-opacity
 
 .v-expansion-panel-header.v-btn
   border-radius: inherit !important
@@ -106,7 +111,8 @@
   flex: 1 0 100%
   max-width: 100%
   position: relative
-  transition: .3s $standard-easing
+  transition: .3s all $standard-easing
+  transition-property: margin-top, border-radius, border
   border-radius: $expansion-panel-border-radius
 
   &:not(:first-child)::after
@@ -117,7 +123,7 @@
     position: absolute
     right: 0
     top: 0
-    transition: .2s border-color $standard-easing, .2s opacity $standard-easing
+    // transition: .2s border-color $standard-easing, .2s opacity $standard-easing
 
   &--disabled
     .v-expansion-panel-header
@@ -157,10 +163,10 @@
     margin-right: auto
 
 .v-expansion-panel-header
-  // align-items: center
+  align-items: center
   border-top-left-radius: inherit
   border-top-right-radius: inherit
-  // display: flex
+  display: flex
   font-size: $expansion-panel-header-font-size
   line-height: 1
   min-height: $expansion-panel-header-min-height
@@ -172,6 +178,8 @@
   transition-property: min-height
   width: 100%
   justify-content: space-between
+
+  @include states('.v-expansion-panel-header__overlay', true)
 
   // &:active::before
   //   opacity: 0.24
@@ -208,6 +216,18 @@
   &.v-expansion-panel-header--active
     border-bottom-left-radius: 0 !important
     border-bottom-right-radius: 0 !important
+
+.v-expansion-panel-header__overlay
+  content: ''
+  position: absolute
+  left: 0
+  top: 0
+  right: 0
+  bottom: 0
+  background-color: currentColor
+  border-radius: inherit
+  // transition: opacity 0.2s ease-in-out
+  opacity: 0
 
 .v-expansion-panel-content
   display: flex

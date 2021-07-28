@@ -12,6 +12,7 @@ import ripple from '@/directives/ripple'
 import { inject } from 'vue'
 import { defineComponent } from '@/util'
 import { VBtn } from '../VBtn'
+import { makeTagProps } from '@/composables/tag'
 
 export default defineComponent({
   name: 'VExpansionPanelHeader',
@@ -33,6 +34,7 @@ export default defineComponent({
       default: false,
     },
     color: String,
+    ...makeTagProps({ tag: 'button' }),
   },
 
   setup (props, { slots }) {
@@ -71,29 +73,41 @@ export default defineComponent({
       //     </div>
       //   ) }
       // </button>
-      <VBtn
+      <props.tag
         class={[
           'v-expansion-panel-header',
           {
             'v-expansion-panel-header--active': expansionPanel.isSelected.value,
           },
+          ...backgroundColorClasses.value,
         ]}
-        type="button"
+        style={backgroundColorStyles.value}
+        tabindex={expansionPanel.disabled.value ? -1 : undefined}
+        type={props.tag === 'button' ? 'button' : undefined}
         aria-expanded={expansionPanel.isSelected.value}
-        color={props.color}
-        ripple={props.ripple}
+        // color={props.color}
+        // ripple={props.ripple}
         onClick={expansionPanel.toggle}
-        block
-        disabled={expansionPanel.disabled.value}
-        append-icon={expansionPanel.isSelected.value ? props.collapseIcon : props.expandIcon}
-        rounded="0"
-        elevation="0"
+        // block
+        disabled={props.tag === 'button' ? expansionPanel.disabled.value : undefined}
+        // append-icon={expansionPanel.isSelected.value ? props.collapseIcon : props.expandIcon}
+        // rounded="0"
+        // elevation="0"
       >
+        <div class="v-expansion-panel-header__overlay" />
         { slots.default?.({
           expanded: expansionPanel.isSelected.value,
           disabled: expansionPanel.disabled.value,
         }) }
-      </VBtn>
+        { !props.hideActions && (
+          <div class="v-expansion-panel-header__icon">
+            {
+              slots.actions ? slots.actions()
+              : <VIcon icon={expansionPanel.isSelected.value ? props.collapseIcon : props.expandIcon} />
+            }
+          </div>
+        ) }
+      </props.tag>
     )
   },
 })
